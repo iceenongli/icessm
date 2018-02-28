@@ -1,0 +1,10 @@
+table,td{
+    border: 1px solid;
+    border-collapse: collapse;
+}
+table tr:first-child{
+   background-color:lightgreen;
+}
+.css3 span:nth-child(1){
+	background-color:blue;
+}

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iceyyy.icessm.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.iceyyy.icessm.pojo.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="salary" jdbcType="DECIMAL" property="salary" />
+    <result column="loginCount" jdbcType="INTEGER" property="logincount" />
+    <result column="praise" jdbcType="BIGINT" property="praise" />
+    <result column="account" jdbcType="DOUBLE" property="account" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, password, birthday, salary, loginCount, praise, account, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.iceyyy.icessm.pojo.User">
+    insert into t_user (id, username, password, 
+      birthday, salary, loginCount, 
+      praise, account, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=TIMESTAMP}, #{salary,jdbcType=DECIMAL}, #{logincount,jdbcType=INTEGER}, 
+      #{praise,jdbcType=BIGINT}, #{account,jdbcType=DOUBLE}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.iceyyy.icessm.pojo.User">
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="salary != null">
+        salary,
+      </if>
+      <if test="logincount != null">
+        loginCount,
+      </if>
+      <if test="praise != null">
+        praise,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="salary != null">
+        #{salary,jdbcType=DECIMAL},
+      </if>
+      <if test="logincount != null">
+        #{logincount,jdbcType=INTEGER},
+      </if>
+      <if test="praise != null">
+        #{praise,jdbcType=BIGINT},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iceyyy.icessm.pojo.User">
+    update t_user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="salary != null">
+        salary = #{salary,jdbcType=DECIMAL},
+      </if>
+      <if test="logincount != null">
+        loginCount = #{logincount,jdbcType=INTEGER},
+      </if>
+      <if test="praise != null">
+        praise = #{praise,jdbcType=BIGINT},
+      </if>
+      <if test="account != null">
+        account = #{account,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iceyyy.icessm.pojo.User">
+    update t_user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      salary = #{salary,jdbcType=DECIMAL},
+      loginCount = #{logincount,jdbcType=INTEGER},
+      praise = #{praise,jdbcType=BIGINT},
+      account = #{account,jdbcType=DOUBLE},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findAll" resultMap="BaseResultMap">
+     select 
+     <include refid="Base_Column_List"/>
+     from t_user 
+  </select>
+  <delete id="deleteBatch" parameterType="Integer">
+     delete from t_user where id in 
+     <foreach item="id" collection="array" open="(" close=")" separator=",">
+        ${id}
+     </foreach>
+  </delete>
+</mapper>
