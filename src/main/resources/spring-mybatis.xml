@@ -7,8 +7,6 @@
   http://www.springframework.org/schema/aop 
   http://www.springframework.org/schema/aop/spring-aop-3.2.xsd" >
 
-    <!-- ========================================配置数据源========================================= -->
-    <!-- 配置数据源,使用的是alibaba的druid数据源 -->
     <bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <property name="url" value="${jdbc.url}" />
         <property name="username" value="${jdbc.username}" />
@@ -24,10 +22,6 @@
         <property name="minIdle" value="0" />
         <!-- 获取连接最大等待时间 -->
         <property name="maxWait" value="60000" />
-        <!-- 
-        <property name="poolPreparedStatements" value="true" /> 
-        <property name="maxPoolPreparedStatementPerConnectionSize" value="33" /> 
-        -->
         <property name="validationQuery" value="SELECT 1" />
         <property name="testOnBorrow" value="false" />
         <property name="testOnReturn" value="false" />
@@ -46,33 +40,19 @@
         <!-- <property name="filters" value="stat" /> -->
         <property name="filters" value="mergeStat" />
     </bean>
-    
-    <!-- ========================================分隔线========================================= -->
-    <!-- ========================================针对myBatis的配置项============================== -->
-    <!-- 配置sqlSessionFactory -->
+
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <!-- 实例化sqlSessionFactory时需要使用上述配置好的数据源以及SQL映射文件 -->
         <property name="dataSource" ref="dataSource" />
-        <!-- 自动扫描mapping目录下的所有SQL映射文件-->
         <property name="mapperLocations" value="classpath:com/iceyyy/icessm/mapping/*.xml" />
     </bean>
-    <!-- 配置扫描器 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <!-- 扫描包中的所有接口 -->
         <property name="basePackage" value="com.iceyyy.icessm.dao" />
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
     
-    <!-- ========================================分隔线========================================= -->
-    <!-- 配置Spring的事务管理器 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
-
-    <!-- 注解方式配置事物 -->
-    <!-- <tx:annotation-driven transaction-manager="transactionManager" /> -->
-
-    <!-- 拦截器方式配置事物 -->
     <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
         <tx:attributes>
             <tx:method name="add*" propagation="REQUIRED" />
@@ -101,7 +81,6 @@
         <aop:advisor pointcut-ref="transactionPointcut" advice-ref="transactionAdvice" />
     </aop:config>
 
-    <!-- 配置druid监控spring jdbc -->
     <bean id="druid-stat-interceptor" class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
     </bean>
     <bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut" scope="prototype">
