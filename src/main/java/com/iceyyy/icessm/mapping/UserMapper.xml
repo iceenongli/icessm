@@ -149,4 +149,64 @@
         ${id}
      </foreach>
   </delete>
+  <select id="pageUser" resultType="com.iceyyy.icessm.pojo.User">
+     select 
+         id id,
+         username username,
+         password password,
+         birthday birthday,
+         salary salary,
+         loginCount loginCount,
+         praise praise,
+         account account,
+         status status
+     from t_user 
+  </select>
+  <select id="getUserById" resultType="com.iceyyy.icessm.pojo.User">
+     select 
+         id id,
+         username username,
+         password password,
+         birthday birthday,
+         salary salary,
+         loginCount loginCount,
+         praise praise,
+         account account,
+         status status
+     from t_user 
+     where id = #{userId}
+  </select>
+  <update id="updateUserBatch">
+    update t_user
+    <set>
+      <if test="user.username != null">
+        username = #{user.username,jdbcType=VARCHAR},
+      </if>
+      <if test="user.password != null">
+        password = #{user.password,jdbcType=VARCHAR},
+      </if>
+      <if test="user.birthday != null">
+        birthday = #{user.birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user.salary != null">
+        salary = #{user.salary,jdbcType=DECIMAL},
+      </if>
+      <if test="user.logincount != null">
+        loginCount = #{user.logincount,jdbcType=INTEGER},
+      </if>
+      <if test="user.praise != null">
+        praise = #{user.praise,jdbcType=BIGINT},
+      </if>
+      <if test="user.account != null">
+        account = #{user.account,jdbcType=DOUBLE},
+      </if>
+      <if test="user.status != null">
+        status = #{user.status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id in 
+    <foreach item="idCurrent" collection="ids" open="(" close=")" separator=",">
+        #{idCurrent}
+     </foreach>
+  </update>
 </mapper>

@@ -2,6 +2,8 @@ package com.iceyyy.icessm.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.iceyyy.icessm.pojo.User;
 
 public interface UserMapper {
@@ -17,7 +19,13 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    List<User> findAll();
-
     int deleteBatch(Integer[] ids);
+
+	List<User> pageUser(User user);
+
+	User getUserById(Integer userId);
+
+	void saveUser(User user);
+
+	void updateUserBatch(@Param("user")User user, @Param("ids") List<String> ids);
 }
